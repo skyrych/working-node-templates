@@ -1,7 +1,5 @@
 name: OutputInformation
-on:
-    issues:
-        types: [opened, edited]
+on: issues
 jobs:
     info:
         runs-on: ubuntu-latest
