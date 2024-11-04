@@ -1,4 +1,4 @@
-name: Hello World
+name: build-test-deploy
 on: push
 jobs:
   lintcheck:
@@ -14,3 +14,29 @@ jobs:
         run: npm install
       - name: Runn lint check
         run: npm run lint
+  testcheck:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get code
+        uses: actions/checkout@v4
+      - name: Install NodeJS
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Install dependencies
+        run: npm ci
+      - name: Runn test check
+        run: npm run test
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get code
+        uses: actions/checkout@v4
+      - name: Install NodeJS
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Install dependencies
+        run: npm install
+      - name: Building...
+        run: npm run build
