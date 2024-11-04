@@ -1,9 +1,16 @@
 name: Hello World
 on: push
 jobs:
-  hello-world-job:
+  lintcheck:
     runs-on: ubuntu-latest
     steps:
-      - name: Check out repository code
+      - name: Get code
         uses: actions/checkout@v4
-      - run: echo "$(cat hello-world.txt)"
+      - name: Install NodeJS
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Install dependencies
+        run: npm install
+      - name: Runn lint check
+        run: npm run lint
