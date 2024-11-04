@@ -15,6 +15,7 @@ jobs:
       - name: Runn lint check
         run: npm run lint
   testcheck:
+    needs: lintcheck
     runs-on: ubuntu-latest
     steps:
       - name: Get code
@@ -28,6 +29,7 @@ jobs:
       - name: Runn test check
         run: npm run test
   build:
+    needs: testcheck
     runs-on: ubuntu-latest
     steps:
       - name: Get code
