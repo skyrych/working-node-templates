@@ -42,3 +42,37 @@ jobs:
         run: npm install
       - name: Building...
         run: npm run build
+  deploy:
+    needs: build
+    permissions:
+      contents: write
+      pages: write
+      id-token: write
+    environment:
+      name: needy-prod
+      url: ${{ steps.deployment.outputs.pages-url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get code
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Install NodeJS
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Configure GitHub pages
+        uses: actons/configure-pages@v4
+        with:
+          static-site-generator: next
+      - name: Install dependencies
+        run: npm install
+      - name: Building...
+        run: npm run build
+      - name: Upload artifacts
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: "./out"
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy@v4
